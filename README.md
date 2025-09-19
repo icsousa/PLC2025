@@ -6,5 +6,5 @@ Este repositório contém os materiais, exercícios e projetos desenvolvidos no 
 - **Nome:** Ivo Costa Sousa
 - **ID:** A102935 
 
-## ✍🏼 Lista de Resultados
+## 📋 Lista de Resultados
 - [TPC 1 — Expressão Regular](./TPC1/)
