@@ -9,3 +9,4 @@ Este repositório contém os materiais, exercícios e projetos desenvolvidos no 
 ## 📋 Lista de Resultados
 - [TPC 1 — Expressão Regular](./TPC1/expressaoregular.txt)
 - [TPC 2 — Conversor de MarkDown para HTML](./TPC2/tpc2.ipynb)
+- [TPC 3 — Analisador Léxico de Queries SPARQL](./TPC3/tpc3.ipynb)
