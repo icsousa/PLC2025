@@ -3,13 +3,13 @@
 
 Desenvolver um pequeno conversor em Python que transforme um subconjunto da sintaxe Markdown (conforme a Basic Syntax da Cheat Sheet) para HTML. O conversor deve reconhecer e traduzir os seguintes elementos:
 
-- **Cabeçalhos:** linhas iniciadas por ``#``, ``##`` ou ``###``.
+- **Cabeçalhos:** linhas iniciadas por ``#``, ``##`` ou ``###``.<br>
 Ex: ``# Exemplo`` → ``<h1>Exemplo</h1>``
 
-- **Negrito:** texto envolvido por ``**``.
+- **Negrito:** texto envolvido por ``**``.<br>
 Ex: ``Este é um **exemplo** ...`` → ``Este é um <b>exemplo</b> ...``
 
-- **Itálico:** texto envolvido por ``*``.
+- **Itálico:** texto envolvido por ``*``.<br>
 Ex: ``Este é um *exemplo* ... ``→ ``Este é um <i>exemplo</i> ...``
 
 - **Lista numerada:** linhas consecutivas começando por ``1.``, ``2.`` ... devem virar uma ``<ol>`` com ``<li>``.
@@ -20,5 +20,5 @@ Ex: ``Este é um *exemplo* ... ``→ ``Este é um <i>exemplo</i> ...``
 
 ### ✏️ Resolução
 
-- [Resolução](tpc2.ipynb)
+- [TPC 2 — Conversor de MarkDown para HTML](tpc2.ipynb)
 
