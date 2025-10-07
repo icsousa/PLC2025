@@ -5,4 +5,4 @@ Desenvolver uma expressão regular que reconheça strings binárias (compostas a
 
 ### ✏️ Resolução
 
-- [Expressão Regular](expressaoregular.txt)
+- [TPC 1 — Expressão Regular](expressaoregular.txt)
