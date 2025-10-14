@@ -41,6 +41,7 @@ SELECT ?a ?b ?c WHERE {
   :eIrmaoDe ?c .
 }
 ```
+---
 
 ### 💡 Exemplo de Saída
 ```
