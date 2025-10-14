@@ -68,7 +68,7 @@ O lexer ignora espaços, tabulações e quebras de linha (`t_ignore = " \t\n"`).
    O saldo é atualizado a cada inserção de moedas e subtraído no momento da compra.
 
 4. **Cálculo do troco:**  
-   Quando o utilizador sai, o programa calcula o troco com moedas de 2€, 1€, 50c, 20c, 10c, 5c, 2c e 1c.
+   Quando o utilizador sai, o programa calcula o troco com moedas de 2e, 1e, 50c, 20c, 10c, 5c, 2c e 1c.
 
 5. **Atualização do stock:**  
    Ao final, o stock é gravado novamente no ficheiro `stock.json`.
