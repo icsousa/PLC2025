@@ -31,6 +31,8 @@ Ex: cada nova linha incrementa o contador de linha.
 
 - **Erro:** qualquer caractere não reconhecido é classificado como `ERRO`.
 
+---
+
 ### 🧩 Exemplo de Entrada
 ```
 SELECT ?a ?b ?c WHERE {
@@ -68,6 +70,7 @@ SELECT ?a ?b ?c WHERE {
     ('NEWLINE', '\n', 6, (83, 84))
 ]
 ```
+---
 
 ### ✏️ Resolução
 
