@@ -18,6 +18,8 @@ Ex: ``Este é um *exemplo* ... ``→ ``Este é um <i>exemplo</i> ...``
 
 - **Imagem:** ``![alt](url)`` → ``<img src="url" alt="alt"/>``
 
+---
+
 ### ✏️ Resolução
 
 - [TPC 2 — Conversor de MarkDown para HTML](tpc2.ipynb)
