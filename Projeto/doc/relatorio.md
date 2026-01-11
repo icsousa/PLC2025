@@ -1,9 +1,7 @@
 # Construção de um Compilador para Pascal Standard
----
+
 ## Projeto de Processamentos de Linguangem e Compiladores
-
 **Grupo 10** -  Ivo Sousa `a102935`, Miguel Páscoa `a104244`, Ricardo Cerqueira `a102878`
-
 
 ## 1. Introdução
 
