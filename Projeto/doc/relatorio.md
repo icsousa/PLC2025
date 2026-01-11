@@ -362,7 +362,7 @@ end.
 
 ![Figura 4](img/ex4_ewvm.png)
 
-*Figura 2: Resultado da execução na EWVM obtendo o valor 150.*
+*Figura 4: Resultado da execução na EWVM obtendo o valor 150.*
 
 ### 4.3. Teste de Funções e Strings
 
