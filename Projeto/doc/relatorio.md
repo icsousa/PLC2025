@@ -320,11 +320,13 @@ end.
 - **Compilação:** O compilador foi executado através da linha de comando `python3 main.py ../tests/ex2.pas`.
 
 ![Figura 1](img/ex2.png)
+
 *Figura 1: Compilação do comando `python3 main.py ../tests/ex2.pas` e geração do output.* 
 
 - **Execução:** O código gerado foi carregado na interface da EWVM e executado com o valor de entrada `5`.
 
 ![Figura 2](img/ex2_ewvm.png)
+
 *Figura 2: Resultado da execução na EWVM obtendo o valor 120.*
 
 ### 4.2. Teste de Arrays e Memória
@@ -353,11 +355,13 @@ end.
 - **Compilação:** O compilador foi executado através da linha de comando `python3 main.py ../tests/ex4.pas`.
 
 ![Figura 3](img/ex4.png)
+
 *Figura 3: Compilação do comando `python3 main.py ../tests/ex4.pas` e geração do output.* 
 
 - **Execução:** O código gerado foi carregado na interface da EWVM e executado com o valor de entrada `10 20 30 40 50`.
 
 ![Figura 4](img/ex4_ewvm.png)
+
 *Figura 2: Resultado da execução na EWVM obtendo o valor 150.*
 
 ### 4.3. Teste de Funções e Strings
@@ -398,11 +402,13 @@ end.
 - **Compilação:** O compilador foi executado através da linha de comando `python3 main.py ../tests/ex5.pas`.
 
 ![Figura 5](img/ex5.png)
+
 *Figura 5: Compilação do comando `python3 main.py ../tests/ex5.pas` e geração do output.* 
 
 - **Execução:** O código gerado foi carregado na interface da EWVM e executado com o valor de entrada `101001`.
 
 ![Figura 6](img/ex5_ewvm.png)
+
 *Figura 6: Resultado da execução na EWVM obtendo o valor 41.*
 
 ### 4.4. Teste de Robustez (Erros Semânticos)
@@ -460,6 +466,7 @@ end.
 - **Compilação:** O compilador foi executado através da linha de comando `python3 main.py ../tests/ex_erro_semantico.pas`.
 
 ![Figura 7](img/ex_erro_semantico.png)
+
 *Figura 7: Compilação do comando `python3 main.py ../tests/ex_erro_semantico.pas` e geração do output.* 
 
 ### 4.5. Teste de Otimização
@@ -515,6 +522,7 @@ end.
 - **Compilação:** O compilador foi executado através da linha de comando `python3 main.py ../tests/ex_opt.pas`.
 
 ![Figura 8](img/ex_opt.png)
+
 *Figura 8: Compilação do comando `python3 main.py ../tests/ex_opt.pas` e geração do output.* 
 
 Como evidenciado na **Figura 8**, o compilador identificou e aplicou **13 simplificações** na Árvore Sintática Abstrata. A análise do código Assembly gerado (`ex_opt.ewvm`) confirma o sucesso das otimizações:
