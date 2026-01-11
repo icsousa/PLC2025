@@ -7,11 +7,9 @@ DEBUG = False
 
 # Listas globais para guardar erros e avisos de recuperação
 errors = []
-warnings = []  # <--- NOVO: Lista para guardar onde recuperámos
+warnings = []
 
-# ====================================================================
-# TABELA DE PRECEDÊNCIA (Resolve Conflitos LALR)
-# ====================================================================
+# Tabela de Precedências (Resolve Conflitos LALR)
 precedence = (
     ('right', 'ELSE'), 
     ('right', 'ASSIGN'),
@@ -23,10 +21,7 @@ precedence = (
     ('right', 'NOT', 'UMINUS')
 )
 
-# ====================================================================
-# CLASSE NODE (Estrutura da AST)
-# ====================================================================
-
+# Classe Node (Estrutura da AST)
 class Node:
     """Representa um nó na Árvore Sintática Abstrata (AST)."""
     def __init__(self, type, children=None, leaf=None, lineno=None):
@@ -64,15 +59,12 @@ def p_empty(p):
     'empty :'
     p[0] = Node('Empty', [], None)
 
-# --------------------------------------------------------------------
-# 1. ESTRUTURA DO PROGRAMA (Suporte Flexível)
-# --------------------------------------------------------------------
-
+# Estrutura do Programa (Suporte Flexível)
 def p_program(p):
     '''program : PROGRAM ID SEMICOLON program_block DOT'''
     p[0] = Node('Program', [p[4]], p[2], lineno=p.lineno(1))
 
-# --- REGRAS FLEXÍVEIS PARA BLOCOS ---
+# Regras flexíveis para os blocos
 def p_program_block_vars_funcs(p):
     '''program_block : declarations function_declarations compound_statement'''
     # Caso Standard: VAR -> FUNÇÕES
@@ -98,10 +90,8 @@ def p_program_block_simple(p):
     # Apenas CORPO
     p[0] = Node('Block', [Node('FunctionDeclarations', []), Node('Declarations', []), p[1]])
 
-# --------------------------------------------------------------------
-# 2. DECLARAÇÕES
-# --------------------------------------------------------------------
 
+# Declarações
 def p_declarations(p):
     '''declarations : VAR declaration_list
                     | empty'''
@@ -123,7 +113,7 @@ def p_declaration(p):
     '''declaration : id_list COLON type SEMICOLON'''
     p[0] = Node('Declaration', [p[1], p[3]], None, lineno=p.lineno(2))
 
-# --- RECUPERAÇÃO DE ERRO NAS DECLARAÇÕES ---
+# Recuperação de Erros nas Declarações
 def p_declaration_error(p):
     '''declaration : error SEMICOLON'''
     # Guarda o aviso para mostrar na tabela amarela
@@ -158,10 +148,8 @@ def p_array_type(p):
     '''array_type : ARRAY LBRACKET INTEGER_CONST DOTDOT INTEGER_CONST RBRACKET OF type'''
     p[0] = Node('ArrayType', [p[8]], (p[3], p[5]), lineno=p.lineno(1))
 
-# --------------------------------------------------------------------
-# 3. SUBPROGRAMAS
-# --------------------------------------------------------------------
 
+# Subprogramas
 def p_function_declarations(p):
     '''function_declarations : function_declarations function_declaration
                              | function_declarations procedure_declaration
@@ -206,10 +194,7 @@ def p_parameter(p):
     '''parameter : id_list COLON type'''
     p[0] = Node('Parameter', [p[1], p[3]], None, lineno=p.lineno(2))
 
-# --------------------------------------------------------------------
-# 4. COMANDOS (STATEMENTS) E RECUPERAÇÃO DE ERRO
-# --------------------------------------------------------------------
-
+# Comandos (Statements) e Recuperação de Erro
 def p_compound_statement(p):
     '''compound_statement : BEGIN statement_list END'''
     p[0] = Node('CompoundStatement', p[2], lineno=p.lineno(1))
@@ -236,7 +221,7 @@ def p_statement(p):
                  | empty'''
     p[0] = p[1]
 
-# --- RECUPERAÇÃO DE ERRO NO BLOCO DE INSTRUÇÕES ---
+# Recuperação de erro no bloco de instruções
 def p_statement_error(p):
     '''statement : error SEMICOLON'''
     # Guarda o aviso para mostrar na tabela amarela
@@ -307,10 +292,7 @@ def p_expression_list(p):
     else:
         p[0] = [p[1]]
 
-# --------------------------------------------------------------------
-# 5. EXPRESSÕES
-# --------------------------------------------------------------------
-
+# Expressões
 def p_expression_binop(p):
     '''expression : expression PLUS expression
                   | expression MINUS expression
@@ -379,10 +361,8 @@ def p_variable(p):
     else:
         p[0] = Node('ArrayAccess', [p[3]], p[1], lineno=p.lineno(1))
 
-# --------------------------------------------------------------------
-# 6. TRATAMENTO DE ERROS GLOBAIS
-# --------------------------------------------------------------------
 
+# Tratamento de Erros Globais
 def p_error(p):
     if p:
         error_msg = f"Token inesperado '{p.value}'"
@@ -412,8 +392,8 @@ parser = yacc.yacc(debug=DEBUG, start='program')
 # Função Wrapper para o main.py chamar
 def parse(data):
     global errors, warnings
-    errors.clear()   # Limpa erros anteriores
+    errors.clear() # Limpa erros anteriores
     warnings.clear() # Limpa avisos anteriores
     result = parser.parse(data)
-    # Agora retorna 3 valores: AST, Erros Fatais, Avisos de Recuperação
+    # Retorna 3 valores: AST, Erros Fatais e Avisos de Recuperação
     return result, errors, warnings
