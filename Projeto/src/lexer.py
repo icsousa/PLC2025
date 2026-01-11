@@ -139,8 +139,7 @@ lexer = lex.lex()
 # Guardar erros 
 lexer.errors = [] 
 
-# --- 6. Funções de Teste (opcionais para uso direto) ---
-
+# Função utilitária para imprimir os tokens encontrados numa string.
 def test_lexer(data):
     """
     Função utilitária para imprimir os tokens encontrados numa string.
@@ -154,18 +153,3 @@ def test_lexer(data):
             break
         col = find_column(data, tok)
         print(f"{tok.type:<20} {str(tok.value):<20} {tok.lineno:<5} {col:<5}")
-
-# Exemplo de uso rápido se executar o arquivo diretamente
-if __name__ == "__main__":
-    exemplo_codigo = """
-    program Teste;
-    var
-        x: integer;
-        msg: string;
-    begin
-        x := 10 * 2; 
-        msg := 'Don''t panic!'; { Exemplo de escape string }
-        writeln(msg, x);
-    end.
-    """
-    test_lexer(exemplo_codigo)
