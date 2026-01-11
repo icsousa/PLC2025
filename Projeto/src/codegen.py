@@ -348,6 +348,15 @@ class CodeGenerator:
                 else:
                     self.emit(f"STOREG {off}")
 
+    def generate_VariableAccess(self, node):
+        name = node.leaf
+        offset = self.variable_offsets.get(name)
+        if offset is not None:
+            if self._is_local() or offset < 0:
+                self.emit(f"PUSHL {offset}")
+            else:
+                self.emit(f"PUSHG {offset}")
+
     def generate_WriteStatement(self, node):
         for expr in node.children:
             self.visit(expr)
