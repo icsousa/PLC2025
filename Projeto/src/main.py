@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import sys
 import os
 import argparse
@@ -41,8 +42,9 @@ def print_banner():
 
 def show_source_preview(code, filename):
     """Mostra o código fonte Pascal com cores (syntax highlighting)."""
+    display_name = os.path.basename(filename)
     syntax = Syntax(code, "pascal", theme="monokai", line_numbers=True)
-    console.print(Panel(syntax, title=f"📄 [bold]{filename}[/]", border_style="blue", expand=False))
+    console.print(Panel(syntax, title=f"📄 [bold]{display_name}[/]", border_style="blue", expand=False))
 
 def run_lexical_check(code):
     """Executa o Lexer para encontrar caracteres inválidos."""
