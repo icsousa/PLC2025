@@ -70,7 +70,7 @@ class SemanticAnalyzer:
     def add_error(self, msg, node=None):
         prefix = ""
         if node and hasattr(node, 'lineno') and node.lineno:
-            prefix = f"[Linha {node.lineno}] "
+            prefix = f"Linha {node.lineno}: "
         self.errors.append(f"{prefix}{msg}")
 
     def add_warning(self, msg, node=None):

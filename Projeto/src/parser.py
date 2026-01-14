@@ -1,5 +1,5 @@
 import ply.yacc as yacc
-from lexer import tokens
+from lexer import tokens, find_column
 import sys
 
 # Ativa modo de depuração se necessário
@@ -365,6 +365,9 @@ def p_variable(p):
 # Tratamento de Erros Globais
 def p_error(p):
     if p:
+        # Calcular a coluna exata usando a função do lexer
+        col = find_column(p.lexer.lexdata, p)
+        
         error_msg = f"Token inesperado '{p.value}'"
         dica = ""
         if p.type == 'SEMICOLON':
@@ -374,6 +377,7 @@ def p_error(p):
         
         errors.append({
             'lineno': p.lineno,
+            'col': col,
             'token': p.value,
             'msg': error_msg,
             'dica': dica
@@ -381,6 +385,7 @@ def p_error(p):
     else:
         errors.append({
             'lineno': 'FIM',
+            'col': '?',
             'token': 'EOF',
             'msg': "Fim de arquivo inesperado. (Falta 'end.'?)",
             'dica': ""

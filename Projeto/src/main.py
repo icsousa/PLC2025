@@ -100,7 +100,7 @@ def compile_file(file_path, options):
             if syntax_errors:
                 error_lines = []
                 for err in syntax_errors:
-                    msg = f"• Linha {err['lineno']}: {err['msg']}"
+                    msg = f"• Linha {err['lineno']}, Coluna {err['col']}: {err['msg']}"
                     if err['dica']:
                         msg += f" [dim italic]({err['dica']})[/]"
                     error_lines.append(msg)
