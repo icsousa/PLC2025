@@ -76,7 +76,7 @@ def compile_file(file_path, options):
         else:
             console.print(f"📂 [bold]Ficheiro:[/bold] [cyan]{file_path}[/cyan]\n")
 
-        # --- FASE 1: LÉXICA ---
+        # Fase Léxica
         console.print("  [step]⚙️ Executando Lexer...[/]")
         if options.tokens_only:
             console.rule("[bold blue]Análise Léxica (Tokens)[/]")
@@ -87,15 +87,15 @@ def compile_file(file_path, options):
             console.print("[error]❌ Compilação abortada devido a erros léxicos.[/]\n")
             return
 
-        # --- INÍCIO DO PROCESSO DE COMPILAÇÃO ---
+        #  Iniciar o Processo de Compilação
         with console.status("[bold green]A compilar...[/]", spinner="dots"):
             
-            # --- FASE 2: PARSING (SINTÁTICA) ---
+            # Fase de Parsing
             console.print("  [step]⚙️ Executando Parser...[/]")
             
             ast, syntax_errors, recovery_warnings = parse(source_code)
 
-            # 1º MOSTRAR: ERROS FATAIS (A Causa)
+            # Mostrar Erros Fatais
             # É a informação mais importante para o utilizador corrigir
             if syntax_errors:
                 error_lines = []
@@ -108,7 +108,7 @@ def compile_file(file_path, options):
                 error_text = "\n".join(error_lines)
                 console.print(Panel(error_text, title="❌ [error]Erros Sintáticos[/]", border_style="red"))
 
-            # 2º MOSTRAR: RECUPERAÇÃO (A Consequência)
+            # Recuperação
             # Informação complementar sobre o que o compilador decidiu ignorar
             if recovery_warnings:
                 rec_lines = []
@@ -139,7 +139,7 @@ def compile_file(file_path, options):
                 console.print(ast)
                 return
 
-            # --- FASE 3: SEMÂNTICA ---
+            # Fase Semântica
             console.print("  [step]🧠 Verificando Semântica...[/]")
             analyzer = SemanticAnalyzer()
             is_valid, errors, warnings = analyzer.analyze(ast)
@@ -156,7 +156,7 @@ def compile_file(file_path, options):
         else:
             console.print("     ✅[success] Semântica Válida[/]")
 
-        # --- FASE 4: OTIMIZAÇÃO ---
+        # Fase de Otimização
         if not options.no_opt:
             with console.status("[bold magenta]A otimizar código...[/]", spinner="bouncingBall"):
                 opt = Optimizer()
@@ -164,7 +164,7 @@ def compile_file(file_path, options):
                 if opt.optimizations_count > 0:
                     console.print(f"     ⚡[bold yellow] Otimização:[/][success] {opt.optimizations_count} Simplificações[/]")
 
-        # --- FASE 5: GERAÇÃO DE CÓDIGO (EWVM) ---
+        # Fase da Geração de Código
         output_file = ""
         if not options.no_code:
             with console.status("[bold cyan]A gerar Assembly EWVM...[/]", spinner="earth"):
@@ -190,7 +190,7 @@ def compile_file(file_path, options):
             console.print(f"     ✅[success] Código Gerado com Sucesso![/]")
             console.print("\n")
             
-            # --- Visualização ---
+            # Visualização do Código Gerado
             try:
                 with open(output_file, 'r') as f:
                     ewvm_content = f.read()
