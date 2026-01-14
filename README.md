@@ -12,3 +12,4 @@ Este repositório contém os materiais, exercícios e projetos desenvolvidos no 
 - [TPC 3 — Analisador Léxico de Queries SPARQL](./TPC3/tpc3.ipynb)
 - [TPC 4 — Máquina de Vending (com PLY)](./TPC4/maq_vending.py)
 - [TPC 5 — Reconhecedores (Parsers) Top-Down: Recursivo Descendente (Análise Sintática)](./TPC5/parser_expr.py)
+- [Projeto — Projeto de Processamentos de Linguangem e Compiladores](./Projeto/src/)
