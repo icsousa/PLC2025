@@ -133,20 +133,17 @@ class CodeGenerator:
         params = node.children[0]
         body = node.children[2]
 
-        # Cria e emite Label de entrada da função
+        # 1. Label e Registo
         lbl = self.create_label()
         self.procedure_starts[name] = lbl
         self.emit(f"{lbl}:")
 
-        # Context Switch
-        # Salva offsets do escopo anterior (global ou pai)
+        # 2. Context Switch (Salvar estado anterior)
         old_offset = self.current_offset
         old_vars = self.variable_offsets.copy()
         self.variable_offsets = {} 
 
-        # Mapear PARÂMETROS (Offsets Negativos)
-        # Na pilha: [Arg1, Arg2, ... , FP, PC]
-        # O último argumento empilhado está logo antes do FP, ou seja, offset -1 (dependendo da VM)
+        # 3. Extrair Lista de Parâmetros
         flat_params = []
         if params.children:
              for param in params.children:
@@ -155,31 +152,33 @@ class CodeGenerator:
                  for id_node in ids:
                      flat_params.append(id_node.leaf)
         
+        # 4. Mapear Parâmetros (Offsets Negativos: -1, -2...)
+        # Exemplo: Se tiveres 2 argumentos, eles ficam em -1 e -2.
         p_offset = -1
-        # Percorre reverso para mapear corretamente (ArgN em -1, ArgN-1 em -2...)
         for param_name in reversed(flat_params):
             self.variable_offsets[param_name] = p_offset
             p_offset -= 1
 
-        # Variáveis LOCAIS (Offsets Positivos)
+        # 5. Mapear Retorno (Dica do Prof)
+        if is_function:
+            # O espaço reservado pelo chamador (PUSHI 0) está logo abaixo dos argumentos.
+            # O offset é: -(numero_de_argumentos + 1)
+            return_offset = -(len(flat_params) + 1)
+            
+            # Mapeamos o nome da função e o alias $return para esse offset
+            self.variable_offsets[name] = return_offset
+            self.variable_offsets['$return'] = return_offset 
+
+        # 6. Variáveis locais (Offsets Positivos começam em 0)
         self.current_offset = 0 
-        if is_function:
-            # Variável mágica para o valor de retorno (offset 0)
-            self.variable_offsets['$return'] = self.current_offset
-            self.variable_offsets[name] = self.current_offset 
-            self.current_offset += 1
-            self.emit("PUSHI 0") # Inicializa retorno com 0
 
-        self.visit(body) # Gera o código do corpo da função
+        # 7. Gerar Corpo
+        self.visit(body) 
 
-        # Epílogo
-        if is_function:
-            # Coloca o valor de retorno no topo da pilha antes de sair
-            self.emit(f"PUSHL {self.variable_offsets['$return']}")
-
+        # 8. Epílogo
         self.emit("RETURN")
         
-        # Restaura contexto anterior
+        # 9. Restaurar Contexto
         self.current_offset = old_offset
         self.variable_offsets = old_vars
 
@@ -366,22 +365,48 @@ class CodeGenerator:
 
     def generate_FunctionCall(self, node):
         name = node.leaf
-        if name.lower() == 'length':
+        
+        # Ignora funções internas como o length
+        if name == 'length':
+            # (Mantém o teu código original do length aqui)
             if node.children:
-                self.visit(node.children[0].children[0]) # Visita argumento
+                self.visit(node.children[0].children[0])
             self.emit("STRLEN")
             return
 
-        # Avalia argumentos e coloca na pilha
+        # 1. Verificar se é Função para reservar espaço
+        # Precisamos de saber se é function (retorna valor) ou procedure
+        symbol = self.symbol_table.lookup(name)
+        is_function = False
+        if symbol and symbol.get('kind') == 'function':
+            is_function = True
+            
+        # O Chamador reserva o espaço na pilha
+        if is_function:
+            self.emit("PUSHI 0") 
+
+        # 2. Empilhar Argumentos
+        num_args = 0
         if node.children:
-            for arg in node.children[0].children:
+            # node.children[0] é a ArgList
+            args_node = node.children[0]
+            # Proteção: verificar se a lista de argumentos não está vazia
+            args = args_node.children if hasattr(args_node, 'children') else []
+            
+            num_args = len(args)
+            for arg in args:
                 self.visit(arg)
         
-        # Salta para a função
+        # 3. Chamar a Função
         lbl = self.procedure_starts.get(name)
         if lbl:
             self.emit(f"PUSHA {lbl}")
             self.emit("CALL")
+            
+            # 4. Limpar apenas os argumentos
+            # O espaço reservado fica lá com o resultado!
+            if num_args > 0:
+                self.emit(f"POP {num_args}")
 
     def generate_BinaryOp(self, node):
         left = node.children[0]
