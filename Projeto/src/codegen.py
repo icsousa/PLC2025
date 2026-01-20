@@ -407,6 +407,11 @@ class CodeGenerator:
             # O espaço reservado fica lá com o resultado!
             if num_args > 0:
                 self.emit(f"POP {num_args}")
+    
+    def generate_ProcedureCall(self, node):
+        # Como a lógica de chamada é igual (empilhar args, call, pop), e a generate_FunctionCall já verifica se deve reservar espaço ou não, podemos reutilizar a mesma função
+        self.generate_FunctionCall(node)
+
 
     def generate_BinaryOp(self, node):
         left = node.children[0]
